@@ -1,0 +1,115 @@
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.cabecera{
+    background-color: hsl(271, 93%, 16%);
+    height: 62px;
+    box-shadow: 1px 1px 10px 0px black;
+}
+
+.cabecera img{
+    background-color:hsl(271, 85%, 82%);
+    border-radius: 40px;    
+    width: 60px;
+    height: 60px;
+}
+.title{
+    padding-top: 10px;
+}
+p{
+    font-size: 25px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: rgb(241, 213, 252);
+}
+.menu{
+    margin-top: 4px;
+    width: 100%;
+    height: 30px;
+    perspective: 200px;
+}
+.menu ul{
+    display: flex;
+    margin: auto;
+}
+.menu li{
+    list-style: none;
+    padding: 15px;
+    color: rgb(241, 213, 252);
+}
+.menu li:hover{
+    list-style: none;
+    padding: 15px;
+    background-color: rgba(101, 49, 114, 0.5);
+    color: rgb(241, 213, 252);
+    cursor: pointer;
+    transition: all 300ms;
+}
+.menu ul li ul{
+    *display: none;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 25px;
+    transform: rotateX(240deg) scale(0);
+    transition: all 1s;
+    box-shadow: 1px 1px 10px 0px black;
+}
+.menu ul li ul::before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 8px solid;
+    position: absolute;
+    margin-top: -10px;
+    margin-left: -30px;
+}
+.menu ul li:hover > ul{
+    transform: rotateY(0deg) scale(1);
+    transition: all 1s;
+    position: absolute;
+}
+.menu ul li ul li{
+    padding-bottom: 2px;
+    padding-top: 2px;
+    background-color: rgba(101, 49, 114, 0.5);
+    margin-bottom: -1px;
+}
+.menu ul li ul li:hover{
+    padding-bottom: 2px;
+    padding-top: 2px;
+    margin-bottom: -1px;
+    background-color: rgb(101, 49, 114);
+
+}
+
+
+
+//BOTÓN NOTIFICACIONES
+.menu ul li ul a{
+    position: relative;
+}
+.menu ul li ul .notificaciones {
+    
+    width: 70px;
+    height: 70px;
+}
+.numero{
+    position: absolute;
+    background-color: rgb(247, 206, 178);
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    margin-top: -52px;
+    margin-left: 30px;
+}
+.numero:hover{
+    background-color: rgb(221, 155, 111);
+}
+.numero h5{
+    font-size: 18px;
+    color: rgb(209, 28, 113);
+}

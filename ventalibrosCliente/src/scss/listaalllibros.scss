@@ -1,0 +1,129 @@
+.titulo{
+    color:hsl(271, 93%, 16%);
+    margin-top: 15px;
+}
+
+.container{
+    width: 100%;
+    max-width: 1200px;
+    height: 430px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+}
+
+.container .card{
+    width: 330px;
+    height: 430px;
+    border-radius: 8px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    margin: 20px;
+    text-align: center;
+    transition: all 0.25s;
+
+}
+
+.container .card:hover{
+    transform: translateY(-15px); //Me eleva un poco la tarjeta
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+    transition: all 1s;
+    
+}
+.container .card h3{
+    font-weight: 600;
+    font-size: 22px;
+    color: rgb(92, 16, 163);
+}
+.container .card img{
+    width: 330px;
+    height: 80%;
+    transition: all 1s; //tiempo en que tarda
+}
+.container .card:hover img{
+    filter: blur(1.5px); //Me desenfoca la imagen
+    overflow: hidden; //Me corta lo que se sale de la tarjeta
+    transition: all .3s; //tiempo en que tarda
+    transform: scale(1.5); //Me acerca el elemento
+
+}
+
+.container .card::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: all .3s;
+
+}
+
+.container .card:hover::before{
+    background-color: rgba(10, 0, 10, 0.568);
+    z-index: 2;
+    transition: all .3s;
+}
+
+.texto{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color: white;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.titulolibroo{
+    padding: 0;
+    margin-top: 30px;
+    color: rgb(231, 208, 252);
+    position: relative; //Desde aqui le estoy dicnendo que se desaparezca del libro
+    left: 100%;
+    transition: 1s;
+}
+.container .card:hover .titulolibroo{
+    left: 0; //Aqui ya le digo que se aparezca en el libro
+    transition: all 1s; //con un retardo de 1 segundo
+} 
+.telefono,.email {
+    padding: 0;
+    margin-top: 20px;
+    color: rgb(246, 239, 252);
+    position: relative;
+    right: 100%;
+    transition: 1s;
+}
+.container .card:hover .telefono{
+    right: 0;
+    transition: 1s;
+}
+.container .card:hover .email{
+    right: 0;
+    transition: 1s;
+}
+
+.btnMeInteresa{
+    width: 160px;
+    height: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;    
+    margin-top: 20px;
+    margin-left: 40px;
+    float: left;
+    background-color: rgb(28, 57, 90); 
+    border-radius: 10px;         
+    position: relative;
+    left: 100%;
+    transition: 1s;    
+}
+
+.container .card:hover .btnMeInteresa{
+    left: -20px;
+    transition: 1s;
+}

@@ -1,0 +1,47 @@
+.btnAgregar{
+    width: 170px;
+    height: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;    
+
+    background-color: rgb(28, 57, 90); 
+    border-radius: 10px;
+    margin-bottom: -6px;    
+}
+.editorial{
+    right: 100%;
+    transition: 1s;
+    position: relative;
+    color: aliceblue;
+    font-size: 15px;
+}
+.descripcion{
+    padding: 10px;
+    right: 100%;
+    transition: 1s;
+    position: relative;
+    color: aliceblue;
+    font-size: 12px;
+    text-align: justify;
+}
+.opciones{
+    display: flex;
+    left: 100%;
+    position: relative;
+    transition: 1s;
+}
+.container .card:hover .editorial{
+    right: 0;
+    transition: 1s;
+}
+.container .card:hover .descripcion{
+    right: 0;
+    transition: 1s;
+}
+.container .card:hover .opciones {
+    left: 0;
+    transition: 1s;
+}
+.btnopcion{
+    margin-left: 10px;
+}

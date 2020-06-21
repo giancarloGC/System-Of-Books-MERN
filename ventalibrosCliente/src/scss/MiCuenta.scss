@@ -1,0 +1,34 @@
+.titulo{
+    color:hsl(271, 93%, 16%);
+    margin-top: 15px;
+}
+.containers{
+    margin-top: 40px;
+    width: 700px;
+    height: 430px;
+    margin-left: 400px;    
+}
+
+.labelsmicuenta{
+    width: 60px;
+    height: 430px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-left: 50px;
+   // padding-bottom: 40px;    
+}
+.informacion{
+    width: 500px;
+    height: 430px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-left: 19px;
+    font-size: 20px;
+    flex-direction: column;
+    //padding-bottom: 120px;        
+}
+.informacion label{
+    margin-bottom: 56px;
+}
