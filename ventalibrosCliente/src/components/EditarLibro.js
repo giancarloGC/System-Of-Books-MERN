@@ -1,64 +1,94 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
+import {useDropzone} from "react-dropzone";
+
 import "../scss/MiCuenta.scss";
-import { Form, Button, Input} from "antd";
+import { Avatar, icon, Form, Button, Input, notification} from "antd";
+
 import "../scss/AgregarLibro.scss";
-import jwtDecode from "jwt-decode";
-import { getAccessToken } from "../api/auth";
-import { enviarDatosAComponenteEditar } from "./MisLibros";
 
-import { LIBRO_EDITAR } from "../util/constants";
+import { useParams } from "react-router-dom";
+import { getBookApi, getAvatarApi, uploadAvatarApi } from '../api/libro';
 
-export function datosDelLibro({libe}){
-    console.log("etoy en editrSEÑORAS Y EÑORES");
-    /*const [libroo, setLibroo] = useState({});
-    setLibroo(...libroo)*/
-    console.log("primer metodo EDITAR");
+import NoAvatar from '../../src/img/noAvatar.png';
 
-    console.log(libe);
-    //EditarLibro(datos);
-};
+export default function EditarLibro(){
+    const { idBook } = useParams();
+    const datos = {
+        idBook: idBook
+    }
 
-function EditarLibro({libe}){
-    /*const accessToken = getAccessToken();
-    const metaToken = jwtDecode(accessToken);
-    const idUsuario = metaToken.id;*/
-    console.log("aqui trato de ascar PROPSSS");
-    console.log(libe);
-    
-    //const { datos } = props;
-    //const libroeditar = localStorage.getItem(LIBRO_EDITAR);
-    //console.log("Probando LOCALSTORAGEEE");
-    //console.log(libroeditar);
-    
-    /*const [ datoss, setDatoss ] = useState({
-        id: "",
-        idUsuario: "",
-        titulo: "",
-        editorial: "",
-        descripcion: "",
-        imagen: ""
-    })
-    setDatoss({...datoss, id: props._id, idUsuario: props.idUsuario, titulo: props.titulo, editorial: props.editorial, descripcion: props.descripcion, imagen: props.imagen});
-*/
+    const [bookEdit, setBookEdit] = useState({});
+    useEffect(() => {
+        getBookApi(datos).then(response => {
+            setBookEdit(response.data)
+        });        
+    },[]);
+    //Imagen
+    const [avatar, setAvatar] = useState(null);
+    useEffect(() => {
+            getAvatarApi(idBook).then(response => {
+                setAvatar(response);
+            });
+    }, []);
 
-console.log("estoy en EDITARRR");
-console.log(libe);
-
-
-
+    console.log("propiedades del avatar!!!");
+    console.log(avatar);
 
     
+    const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        if (avatar) {
+          setUserData({ ...userData, avatar: avatar.file });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [avatar]);
+
+
+
+    const actualizarDatos = (e) => {
+        e.preventDefault();
+        console.log('FUNCIONANNNNDOOOOO BITCHEESSSS');
+        console.log(avatar);
+        console.log(userData);
+        if(typeof userData.avatar === "object"){
+            console.log("logrado");
+             uploadAvatarApi(userData.avatar, idBook).then(response => {
+                notification["success"]({
+                    message: response.message
+                });
+            });
+        }else{
+            console.log("fuck");           
+        }
+    };
+
+    //const avatarData = avatar.file;
+/*    useEffect(() => {
+        if(avatar.file){
+            getAvatarApi(avatar.file).then(response => {
+                setAvatar(response);
+            });
+        }else{
+            setAvatar(null);
+        }
+    }, [avatar.file]);  */  
+
+    /*useEffect(() => {
+        if(avatar){
+            setUset
+        }
+    }, []);*/
     return(
         <div>
         <center><h1 class="titulo">Editar Libro</h1></center>
             <div className="container formulariolibro">
-            <Form >            
+            <Form onSubmitCapture={actualizarDatos}>            
                 <div className="row espacionombre">
                     <div class="col-md-3">
                         <p class="labelslibro">Título:</p>
                     </div>
                     <div class="col-md-9">
-                        <Input name="titulo" value="bb" id="titulo"/>
+                        <Input name="titulo" value={bookEdit.titulo} id="titulo"/>
                     </div>                
                 </div> 
                 <div className="row espaciolibro">
@@ -66,7 +96,7 @@ console.log(libe);
                         <p class="labelslibro">Editorial:</p>
                     </div>
                     <div class="col-md-9">
-                        <Input name="editorial" placeholder="Digite aquí la Editorial" id="editorial" required/>
+                        <Input name="editorial" value={bookEdit.editorial} id="editorial" required/>
                     </div>                
                 </div>    
                 <div className="row espaciolibro">
@@ -74,15 +104,15 @@ console.log(libe);
                         <p class="labelslibro">Descripción:</p>
                     </div>
                     <div class="col-md-9">
-                        <Input.TextArea name="descripcion" placeholder="Descripción del Libro" id="descripcion" required/>
+                        <Input.TextArea name="descripcion" value={bookEdit.descripcion} id="descripcion" required/>
                     </div>                
-                </div>   
+                </div> 
                 <div className="row espaciolibro">
                     <div class="col-md-3">
                         <p class="labelslibro">Imagen:</p>
                     </div>
                     <div class="col-md-9">
-                        <Input type="file" name="imagen" id="imagen"/>
+                    <UploadAvatar avatar={avatar} setAvatar={setAvatar}/>
                     </div>                
                 </div>                                              
                 <div className="row espacio">
@@ -94,10 +124,52 @@ console.log(libe);
                 </Button>                
                 </div>  
             </Form>               
-             
+
             </div>
 
         </div>
     );
 }
-export default EditarLibro;
+
+//              
+
+function UploadAvatar (props) {
+    const { avatar, setAvatar } = props;
+    const [avatarUrl, setAvatarUrl] = useState(null);
+
+    useEffect(() => {
+        if(avatar){
+            if(avatar.preview){
+                setAvatarUrl(avatar.preview);
+            }else{
+                setAvatarUrl(avatar)
+            }
+        }else{
+            setAvatarUrl(null);
+        }
+    }, [avatar]);
+    const onDrop = useCallback(
+        acceptedFiles => {
+            const file = acceptedFiles[0];
+            setAvatar({ file, preview: URL.createObjectURL(file)}); 
+        },
+        [setAvatar]
+    );
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: 'image/jepg, image/png',
+        noKeyBoard: true,
+        onDrop 
+    });
+
+    return(
+        <div class="upload-avatar" {...getRootProps()}> 
+            <input {...getInputProps()} />
+            {isDragActive ? (
+                <Avatar size={150} src={NoAvatar} />
+            ) : (
+                <Avatar size={150} src={avatarUrl ? avatarUrl : NoAvatar} />
+            )}
+        </div>
+    )
+
+}

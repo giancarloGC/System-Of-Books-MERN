@@ -7,11 +7,13 @@ import libro3 from "../../src/img/react.jpg";
 
 import { getAccessToken } from "../api/auth";
 import jwtDecode from "jwt-decode";
-import { obtenerMisLibrosApi, eliminarLibroApi } from "../api/libro";
+import { obtenerMisLibrosApi, eliminarLibroApi, getAvatarApi } from "../api/libro";
 import { datosDelLibro } from "./EditarLibro";
 import EditarLibro from "./EditarLibro";
 import { LIBRO_EDITAR } from "../util/constants";
-function MisLibros(){
+import noAvatar from "./../../src/img/noAvatar.png";
+
+export default function MisLibros(){
 
     const token = getAccessToken();
     const metaToken = jwtDecode(token);
@@ -43,10 +45,7 @@ function MisLibros(){
             return item._id === props;
         })
         console.log(libroeditar);
-        //datosDelLibro(libroEditar);
-        //<EditarLibro libraa={libroEditar}/>
         localStorage.setItem(LIBRO_EDITAR, libroeditar);
-        console.log("probandiiiiii LOCAL");
 
         setDatoss({...datoss, _id: libroeditar._id, 
             idUsuario: libroeditar.idUsuario, 
@@ -58,31 +57,9 @@ function MisLibros(){
             console.log("IMPRIMIR USESTATE");
             const iss = datoss._id;
             console.log(iss);
-            
-            if(datoss._id){
-               // const librre = ({datoss});
-                //console.log("imprimiento libreeee");
-                //console.log(librre);
-                
-                
-                enviarDatosAComponenteEditar(datoss);//debo enviarle libroEditar
-                       window.location.href = "/HomePage/Editarlibro";
 
-            }
-            
-            console.log(datoss);
-            
-            
-            
-
-        //{<EditarLibro datos{libroEditar}/>};
-       //window.location.href = "/HomePage/Editarlibro";
-
-        //AQUI VOYYYYYY
-        //const datos = {
-           // titulo=
-        //};
-        //href="/HomePage/Editarlibro" 
+            window.location.href = `/HomePage/Editarlibro/${props}`;
+            //href={`/HomePage/Editarlibro/${item._id}`}
     };
 
     const [ libEliminar, setLibEliminar ] = useState({
@@ -131,7 +108,7 @@ function MisLibros(){
                 <div className="container">
                     {libros.map((item) => (
                     <div class="card">
-                    <img alt="" src={libro3}/>
+                        <CargarImagen _id={item._id} />
                     <h3>{item.titulo}</h3>
                         <div className="texto">
                             <h4 class="titulolibroo">{item.titulo}</h4>
@@ -156,34 +133,16 @@ function MisLibros(){
 }
 
 
-export default MisLibros;
+function CargarImagen (props){
+    const { _id } = props;
+    const [avatar, setAvatar] = useState(null);
+    useEffect(() => {
+        getAvatarApi(_id).then(response => {
+            setAvatar(response);
+        });
+    }, []);
 
-export function enviarDatosAComponenteEditar(datoss){
-    console.log("AL FIN TRAT DE ENVIAR AL COMPONENTEA");
-    
-    console.log(datoss);
-    const libe = {
-        _id: datoss._id,
-        idUsuario: datoss.idUsuario, 
-        titulo: datoss.titulo,
-        editorial: datoss.editorial, 
-        descripcion: datoss.descripcion,
-        imagen: datoss.imagen
-    }
-    //window.location.href = "/HomePage/Editarlibro";
-    return(
-        //datosDelLibro(datos)
-        <EditarLibro libe={libe}/>
+    return (
+         <img alt="" src={avatar} />
     );
 }
-
-/*const datosLibroAEditar = (props) => {
-    console.log(props);
-    <EditarLibro datos={props}/>
-
-    //AQUI VOYYYYYY
-    //const datos = {
-       // titulo=
-    //};
-    //href="/HomePage/Editarlibro" 
-};*/

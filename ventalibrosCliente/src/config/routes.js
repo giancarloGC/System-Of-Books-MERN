@@ -34,7 +34,7 @@ const routes = [
                         path: "/HomePage/Agregarlibro", component: AgregarLibro, exact: true 
                     },
                     {
-                        path: "/HomePage/Editarlibro", component: Editarlibro, exact: true 
+                        path: "/HomePage/Editarlibro/:idBook", component: Editarlibro, exact: true 
                     },                                        
                     {
                         path: "/HomePage/Micuenta", component: MiCuenta, exact: true 

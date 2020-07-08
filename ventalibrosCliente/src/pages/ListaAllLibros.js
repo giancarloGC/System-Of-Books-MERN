@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../scss/listaalllibros.scss";
-import libro1 from "../../src/img/java.jpg";
-import libro2 from "../../src/img/python.jpg";
-import libro3 from "../../src/img/react.jpg";
 import {Button, notification} from "antd";
 import { LikeOutlined, BookOutlined, FileTextOutlined, PhoneOutlined, MailOutlined} from '@ant-design/icons';
 
-import { obtenerTodosLibrosApi } from "../api/libro";
+import { obtenerTodosLibrosApi, getAvatarApi } from "../api/libro";
 import { registrarLibroInteresApi } from "../api/interes";
 import { getAccessToken } from "../api/auth";
 import jwtDecode from "jwt-decode";
+//import noAvatar from ""
 
 function ListaAllLibros(){
     const [libros, setLibros] = useState([]);
@@ -71,8 +69,6 @@ function ListaAllLibros(){
             window.location.href = "/HomePage";
 
         }
-
-
     };
     
     return(
@@ -81,7 +77,7 @@ function ListaAllLibros(){
             <div className="container">
                 {libros.map((item) => (
                 <div class="card">
-                    <img alt="" src={libro1}/>
+                    <CargarImagen idBook={item._id}/>
                     <h3>{item.titulo}</h3>
                         <div className="texto">
                             <h4 class="titulolibroo">{item.titulo}</h4>
@@ -98,7 +94,20 @@ function ListaAllLibros(){
                 ))}                                                                              
             </div>
         </div>
-
     );
 }
 export default ListaAllLibros;
+
+function CargarImagen (props) {
+    const { idBook } = props;
+    const [ imagen, setImagen ] = useState(null);
+    useEffect(() => {
+        getAvatarApi(idBook).then(response => {
+            setImagen(response);
+        })
+    },[]);
+
+    return(
+        <img alt="" src={imagen}/>
+    );
+}
